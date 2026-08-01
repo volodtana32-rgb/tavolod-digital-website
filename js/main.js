@@ -108,12 +108,11 @@ function getGalleryFiles(key) {
   const entry = portfolioFiles[key];
   if (!entry) return [];
   if (hasPreviewGallery(key)) {
-    const preview = (entry.preview || []).map(resolveFile);
-    const gallery = (entry.gallery || []).map(resolveFile);
-    // Объединяем preview + gallery; preview первыми, дубли убираем.
-    return [...new Set([...preview, ...gallery])];
+    // В галерее показываем только полноразмерные работы (gallery),
+    // чтобы не дублировать превью карточек.
+    return (entry.gallery || []).map(resolveFile);
   }
-  return Array.isArray(entry) ? [...new Set(entry.map(resolveFile))] : [];
+  return Array.isArray(entry) ? entry.map(resolveFile) : [];
 }
 
 // ===== МОДАЛЬНАЯ ГАЛЕРЕЯ ПО УСЛУГЕ =====
