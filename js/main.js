@@ -110,10 +110,10 @@ function getGalleryFiles(key) {
   if (hasPreviewGallery(key)) {
     const preview = (entry.preview || []).map(resolveFile);
     const gallery = (entry.gallery || []).map(resolveFile);
-    // Объединяем preview + gallery; preview первыми.
-    return preview.length || gallery.length ? [...preview, ...gallery] : [];
+    // Объединяем preview + gallery; preview первыми, дубли убираем.
+    return [...new Set([...preview, ...gallery])];
   }
-  return Array.isArray(entry) ? entry.map(resolveFile) : [];
+  return Array.isArray(entry) ? [...new Set(entry.map(resolveFile))] : [];
 }
 
 // ===== МОДАЛЬНАЯ ГАЛЕРЕЯ ПО УСЛУГЕ =====
